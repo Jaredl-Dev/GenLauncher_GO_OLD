@@ -147,8 +147,9 @@ namespace GenLauncherNet
             EntryPoint.GameFiles.Add("W3DSpanishZH.big".ToLower());
             EntryPoint.GameFiles.Add("W3DZH.big".ToLower());
             EntryPoint.GameFiles.Add("WindowZH.big".ToLower());
-
-
+            EntryPoint.GameFiles.Add("PatchData.big".ToLower());
+            EntryPoint.GameFiles.Add("PatchINI.big".ToLower());
+            EntryPoint.GameFiles.Add("PatchWindow.big".ToLower());
         }
 
         private static void FillGeneralsFiles()
@@ -201,6 +202,9 @@ namespace GenLauncherNet
             EntryPoint.GameFiles.Add("Textures.big".ToLower());
             EntryPoint.GameFiles.Add("W3D.big".ToLower());
             EntryPoint.GameFiles.Add("Window.big".ToLower());
+            EntryPoint.GameFiles.Add("PatchData.big".ToLower());
+            EntryPoint.GameFiles.Add("PatchINI.big".ToLower());
+            EntryPoint.GameFiles.Add("PatchWindow.big".ToLower());
         }
         
         private static void DeleteOldGenLauncherFile()

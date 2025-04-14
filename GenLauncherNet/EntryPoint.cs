@@ -22,7 +22,7 @@ namespace GenLauncherNet
         public const string GenLauncherModsFolder = "GLM";
         public const string GenLauncherModsFolderOld = "GenLauncherModifications";
         public const string LauncherImageSubFolder = "LauncherImages";
-        public const string Version = "1.0.0.8";
+        public const string Version = "1.0.1.0";
         public const int LaunchesCountForUpdateAdverising = 100;
         public const string SteamFolderName = "ZH_Generals";
 

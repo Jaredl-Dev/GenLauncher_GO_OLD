@@ -42,8 +42,14 @@ namespace GenLauncherNet
             while (currentVersionString.Length < latestVersionString.Length)
                 currentVersionString += '0';
 
-            var currentVersion = int.Parse(currentVersionString);
-            var latestVersion = int.Parse(latestVersionString);
+            long currentVersion = 0;
+
+            if (!String.IsNullOrEmpty(currentVersionString))
+            {
+                currentVersion = long.Parse(currentVersionString);
+            }
+
+            var latestVersion = long.Parse(latestVersionString);
 
             return (latestVersion > currentVersion);
         }
