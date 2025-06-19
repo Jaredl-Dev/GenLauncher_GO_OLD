@@ -36,9 +36,9 @@ namespace GenLauncherNet
             return true;
         }
 
-        public async static Task<bool> RunGame()
+        public async static Task<bool> RunGame(bool bIsGeneralsOnline)
         {
-            var result = await Task.Run(() => StartGameExe());
+            var result = await Task.Run(() => StartGameExe(bIsGeneralsOnline));
             RenameGameFilesToOriginalState();
             return result;
         }
@@ -256,13 +256,22 @@ namespace GenLauncherNet
 
         #region Exe handlers
 
-        private static bool StartGameExe()
+        private static bool StartGameExe(bool bIsGeneralsOnline)
         {
             Process process;
-            if (DataHandler.IsModdedExe() && File.Exists("modded.exe"))
-                process = StartExe("modded.exe");
+
+            if (bIsGeneralsOnline)
+            {
+				process = StartExe("generalsonlinezh.exe");
+			}
             else
-                process = StartExe("generals.exe");
+            {
+				if (DataHandler.IsModdedExe() && File.Exists("modded.exe"))
+					process = StartExe("modded.exe");
+				else
+					process = StartExe("generals.exe");
+			}
+           
 
             var exeRunning = true;
 

@@ -17,6 +17,7 @@ namespace GenLauncherNet
     public partial class InfoWindow : Window
     {
         private bool ContinueLaunch = true;
+        private bool ChoseAnOption = false;
 
         public InfoWindow(string mainInfo, string modsInfo)
         {
@@ -29,13 +30,15 @@ namespace GenLauncherNet
 
         private void Ok_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+			ChoseAnOption = true;
+			this.Close();
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             ContinueLaunch = false;
-            this.Hide();
+			ChoseAnOption = true;
+			this.Hide();
         }
 
         public bool GetResult()
@@ -44,9 +47,15 @@ namespace GenLauncherNet
             return ContinueLaunch;
         }
 
-        private void Continue_Click(object sender, RoutedEventArgs e)
+		public bool UserChoseAnOption()
+		{
+			return ChoseAnOption;
+		}
+
+		private void Continue_Click(object sender, RoutedEventArgs e)
         {
-            this.Hide();
+            ChoseAnOption = true;
+			this.Hide();
         }
 
         private void SetColors()

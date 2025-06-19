@@ -1805,17 +1805,52 @@ namespace GenLauncherNet.Windows
                     await CheckAndUpdateGentool();
                     await CheckAndUpdateVulkan();
 
-                    DataHandler.FirstRun = false;
-                    var result = await GameLauncher.RunGame();
+					bool bIsGeneralsOnline = false;
 
-                    if (DataHandler.GetHideLauncher())
-                        this.Show();
-
-                    if (result && ModsList.SelectedItems.Count > 0)
+                    // Do we need to prompt for GO?
+                    if (File.Exists("generalsonlinezh.exe"))
                     {
-                        var modContainer = ModsList.SelectedItems[0] as ModificationViewModel;
-                        modContainer._GridControls._SupportButton.IsBlinking = true;
-                    }
+						var infoWindow = new InfoWindow("Which game would you like to launch?", "Please choose a game client:")
+						{ WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen };
+						infoWindow.Ok.Visibility = Visibility.Hidden;
+
+						infoWindow.Continue.Width = 150f;
+						infoWindow.Continue.Content = "Generals";
+						infoWindow.Cancel.Content = "GeneralsOnline";
+						infoWindow.Cancel.Width = 150f;
+
+						infoWindow.ShowDialog();
+
+                        bool bSelectedGeneralsVanilla = infoWindow.GetResult();
+                        
+                        // dont launch if they just closed the dialog box without selecting anything
+                        if (!infoWindow.UserChoseAnOption())
+                        {
+							_isGameRunning = false;
+							return;
+                        }
+
+						if (!bSelectedGeneralsVanilla) // generals online
+						{
+							bIsGeneralsOnline = true;
+						}
+						else // generals vanilla
+						{
+							bIsGeneralsOnline = false;
+						}
+					}
+
+						DataHandler.FirstRun = false;
+						var result = await GameLauncher.RunGame(bIsGeneralsOnline);
+
+						if (DataHandler.GetHideLauncher())
+							this.Show();
+
+						if (result && ModsList.SelectedItems.Count > 0)
+						{
+							var modContainer = ModsList.SelectedItems[0] as ModificationViewModel;
+							modContainer._GridControls._SupportButton.IsBlinking = true;
+						}
                 }
                 else
                 {
