@@ -164,7 +164,11 @@ namespace GenLauncherNet
         {
             if (customFileExtensions.Contains(Path.GetExtension(file.FullName)) && !file.FullName.Contains(EntryPoint.GenLauncherModsFolder))
             {
-                ReplaceFile(file.FullName);
+                // GO CHANGE: Don't rename anything inside our data folder
+                if (!file.FullName.Contains("GeneralsOnlineGameData"))
+                {
+					ReplaceFile(file.FullName);
+				}
             }
         }
 
