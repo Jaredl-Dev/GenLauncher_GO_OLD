@@ -34,7 +34,6 @@ namespace GenLauncherNet.Windows
             new ObservableCollection<ModificationViewModel>();
 
         private CancellationTokenSource tokenSource;
-        private bool _updating = false;
         private bool _ignoreSelectionFlagMods = false;
         private bool _ignoreSelectionFlagPatches = false;
         private volatile bool _isGameRunning = false;
@@ -377,26 +376,7 @@ namespace GenLauncherNet.Windows
 
         #endregion
 
-        #region SelfUpdater
-
-        private bool IsCurrentVersionOutDated()
-        {
-            var currentVersionString =
-                new string(EntryPoint.Version.ToCharArray().Where(n => n >= '0' && n <= '9').ToArray());
-            var latestVersionString =
-                new string(DataHandler.Version.ToCharArray().Where(n => n >= '0' && n <= '9').ToArray());
-
-            while (currentVersionString.Length > latestVersionString.Length)
-                latestVersionString += '0';
-
-            while (currentVersionString.Length < latestVersionString.Length)
-                currentVersionString += '0';
-
-            var currentVersion = int.Parse(currentVersionString);
-            var latestVersion = int.Parse(latestVersionString);
-
-            return (latestVersion > currentVersion);
-        }
+        #region LauncherStatus
 
         private void LauncherUpdateProgressChanged(long? totalSize, long totalBytesRead, int progressPercentage)
         {
@@ -416,50 +396,10 @@ namespace GenLauncherNet.Windows
             LatestLauncherVersion.Text = LocalizedStrings.Instance["NoConnection"];
 
             if (connected)
-            {
                 LatestLauncherVersion.Text = LocalizedStrings.Instance["LatestVersion"] + DataHandler.Version;
-                if (IsCurrentVersionOutDated())
-                {
-                    LauncherUpdate.IsEnabled = true;
-                    LauncherUpdate.IsBlinking = true;
 
-                    var infoWindow = new UpdateAvailable(DataHandler.Version)
-                        { WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen };
-
-                    infoWindow.ShowDialog();
-                }
-            }
-        }
-
-        private async void UpdateLauncher()
-        {
-            tokenSource = new CancellationTokenSource();
-
-            try
-            {
-                using (var client = new ContentDownloader(DataHandler.DownloadLink, SelfUpdate, "GenLauncherTemp",
-                           tokenSource.Token))
-                {
-                    client.ProgressChanged += LauncherUpdateProgressChanged;
-                    client.Done += Exit;
-                    SetProgressBarInInstallMode();
-                    await client.StartDownload();
-                }
-            }
-            catch (TaskCanceledException)
-            {
-                UpdateProgressBar.Value = 0;
-                SetProgressBarInPassivelMode();
-                return;
-            }
-            catch (Exception e)
-            {
-                UpdateProgressBar.Value = 0;
-                UpdateProgress.Foreground = (SolidColorBrush)new BrushConverter().ConvertFromString("White");
-                UpdateProgress.Text = LocalizedStrings.Instance["Error"] + e.Message;
-                SetProgressBarInPassivelMode();
-                return;
-            }            
+            LauncherUpdate.IsEnabled = false;
+            LauncherUpdate.IsBlinking = false;
         }
 
         private void SetProgressBarInInstallMode()
@@ -1301,33 +1241,6 @@ namespace GenLauncherNet.Windows
             File.Move(tempFileName, "modded.exe");
         }
 
-        private static void SelfUpdate(string tempFileName)
-        {
-            var BatFileName = Guid.NewGuid().ToString() + ".bat";
-            var ExutetableFileName = System.IO.Path.GetFileName(Process.GetCurrentProcess().MainModule.FileName);
-            var tempFile = ExutetableFileName + "Old";
-
-            using (var SW = new StreamWriter(BatFileName))
-            {
-                SW.WriteLine(String.Format(
-                    "ren \"{0}\" \"{3}\"  \r\n " +
-                    "ren \"{1}\" \"{0}\" \r\n " +
-                    "start \"\" \"{0}\" \r\n " +
-                    "del \"{3}\" \r\n " +
-                    "del \"{2}\"", ExutetableFileName, tempFileName, BatFileName, tempFile));
-                SW.Flush();
-                SW.Close();
-            }
-
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-            GC.Collect();
-
-            Process.Start(new ProcessStartInfo()
-                { UseShellExecute = false, FileName = BatFileName, CreateNoWindow = true });
-            System.Windows.Application.Current.Shutdown();
-        }
-
         private async Task UpdateAddonsAndPatches(ModificationReposVersion mod)
         {
             if (mod != null)
@@ -1939,27 +1852,7 @@ namespace GenLauncherNet.Windows
 
         private void LauncherUpdate_Click(object sender, RoutedEventArgs e)
         {
-            if (_updating)
-            {
-                LauncherUpdate.Content = LocalizedStrings.Instance["Update"];
-                UpdateProgress.Text = String.Empty;
-                UpdateProgressBar.Value = 0;
-                tokenSource.Cancel();
-                EnableUI();
-                _updating = false;
-            }
-            else
-            {
-                if (downloadingCount != 0)
-                    UpdateProgress.Text = LocalizedStrings.Instance["FinishInstall"];
-                else
-                {
-                    UpdateLauncher();
-                    LauncherUpdate.Content = LocalizedStrings.Instance["Cancel"];
-                    DisableUI();
-                    _updating = true;
-                }
-            }
+            SetSelfUpdatingInfo(EntryPoint.SessionInfo.Connected);
         }
 
         private void ButtonOptions_Click(object sender, RoutedEventArgs e)

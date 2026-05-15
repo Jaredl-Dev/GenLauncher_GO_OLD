@@ -20,7 +20,6 @@ namespace GenLauncherNet
         private static bool connected;
         private static LauncherData Data;
         public static string Version { private set; get; }
-        public static string DownloadLink { private set; get; }
         private static GitHubMainDataReader gitHubMainDataReader;
         private static Dictionary<ModificationReposVersion, ModAddonsAndPatches> MofificationsAndAddons;
         private static string startPath = Directory.GetCurrentDirectory();
@@ -113,10 +112,8 @@ namespace GenLauncherNet
                 reposData = await client.ReadYaml<ReposModsData>();
             }
 
-            Version = reposData.LauncherVersion;
-            DownloadLink = reposData.DownloadLink;
-
             AdvData = reposData.AdvData;
+            Version = reposData.LauncherVersion;
 
             gitHubMainDataReader = new GitHubMainDataReader(reposData);
 
