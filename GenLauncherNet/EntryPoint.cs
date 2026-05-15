@@ -52,9 +52,6 @@ namespace GenLauncherNet
         public static ColorsInfo Colors;
         public static ColorsInfo DefaultColors;
 
-        private const uint RequiredNetFrameworkVersionReleaseKey = 393295; // Version 4.6
-        private const string RequiredNetFrameworkVersion = "4.6"; // Release key = 393295
-
         private static Mutex _mutex1;
 
         [DllImport("kernel32.dll")]
@@ -92,26 +89,6 @@ namespace GenLauncherNet
 
                
                 //Unpacker.ExtractLangDlls();                
-
-                if (!GeneralUtilities.IsRequiredNetFrameworkVersionInstalled(RequiredNetFrameworkVersionReleaseKey))
-                {
-                    var result =
-                        MessageBox.Show(
-                            String.Format(LocalizedStrings.Instance["NetRequired"], RequiredNetFrameworkVersion) +
-                            LocalizedStrings.Instance["DownloadNet"],
-                            String.Format(LocalizedStrings.Instance["NetRequired2"], RequiredNetFrameworkVersion),
-                            MessageBoxButton.YesNo,
-                            MessageBoxImage.Warning
-                        );
-
-                    if (result == MessageBoxResult.Yes)
-                    {
-                        GeneralUtilities.OpenWebpageInBrowser(
-                            "https://dotnet.microsoft.com/en-us/download/dotnet-framework/thank-you/net48-web-installer");
-                    }
-
-                    return;
-                }
 
                 if (!IsLauncherInGameFolder())
                 {
