@@ -1342,21 +1342,7 @@ namespace GenLauncherNet.Windows
 
             if (firstRun)
             {
-                var mainMessage = LocalizedStrings.Instance["FirstRun"];
-
-                var infoWindow = new InfoWindow(mainMessage, LocalizedStrings.Instance["ApplyDefaultSettings"])
-                { WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen };
-                infoWindow.Ok.Visibility = Visibility.Hidden;
-
-                infoWindow.Continue.Content = LocalizedStrings.Instance["Apply"];
-                infoWindow.Cancel.Content = LocalizedStrings.Instance["No"];
-
-                infoWindow.WarningPolygon1.Visibility = Visibility.Visible;
-                infoWindow.WarningPolygon2.Visibility = Visibility.Visible;
-                infoWindow.WarningPolygon3.Visibility = Visibility.Visible;
-
-                infoWindow.ShowDialog();
-                return infoWindow.GetResult();
+                DataHandler.FirstRun = false;
             }
 
             return false;
