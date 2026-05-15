@@ -1,5 +1,6 @@
 ﻿using Minio;
 using Minio.DataModel;
+using Minio.DataModel.Args;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -15,7 +16,7 @@ namespace GenLauncherNet
 {
     public class S3StorageHandler
     {
-        private MinioClient minioClient;
+        private IMinioClient minioClient;
 
         public const string GenInsavePKey = "S58TYR9ISEZV8PBP8QG1";
         public const string GenInsaveSKey = "b2RU1oqVU5toJRnb4gODrXX8sBSgoLcHRX6qPWxj";
@@ -29,37 +30,49 @@ namespace GenLauncherNet
             Thread.CurrentThread.CurrentCulture = current;
 
             if (string.IsNullOrEmpty(version.S3HostPublicKey) || String.IsNullOrEmpty(version.S3HostSecretKey))
-                minioClient = new MinioClient(version.S3HostLink, GenInsavePKey, GenInsaveSKey);
+                minioClient = CreateClient(version.S3HostLink, GenInsavePKey, GenInsaveSKey);
             else
-                minioClient = new MinioClient(version.S3HostLink, version.S3HostPublicKey, version.S3HostSecretKey);
+                minioClient = CreateClient(version.S3HostLink, version.S3HostPublicKey, version.S3HostSecretKey);
 
             return await GetFilesFromBucket(version);
         }
 
         private async Task<List<ModificationFileInfo>> GetFilesFromBucket(ModificationVersion version)
         {
-            var getListBucketsTask = await minioClient.ListBucketsAsync();
+            await minioClient.ListBucketsAsync();
 
             var filestList = new List<ModificationFileInfo>();
 
-            bool finished = false;
+            var listObjectsArgs = new ListObjectsArgs()
+                .WithBucket(version.S3BucketName)
+                .WithPrefix(version.S3FolderName)
+                .WithRecursive(true);
 
-            var result = minioClient.ListObjectsAsync(version.S3BucketName, version.S3FolderName, true);
+            var objects = minioClient.ListObjectsEnumAsync(listObjectsArgs);
+            var enumerator = objects.GetAsyncEnumerator(CancellationToken.None);
 
-            var subscription = result.Subscribe(
-            item =>
+            try
             {
-                filestList.Add(new ModificationFileInfo(item.Key.Replace(version.S3FolderName + '/', ""), item.ETag, item.Size));
-            },
-            ex => throw new Exception("Cannot enumerate objects in S3 storage"),
-            () => finished = true);
-
-
-            while (!finished)
-            {
-
+                while (await enumerator.MoveNextAsync())
+                {
+                    var item = enumerator.Current;
+                    filestList.Add(new ModificationFileInfo(item.Key.Replace(version.S3FolderName + '/', ""), item.ETag, item.Size));
+                }
             }
+            finally
+            {
+                await enumerator.DisposeAsync();
+            }
+
             return filestList;
+        }
+
+        private static IMinioClient CreateClient(string endpoint, string accessKey, string secretKey)
+        {
+            return new MinioClient()
+                .WithEndpoint(endpoint)
+                .WithCredentials(accessKey, secretKey)
+                .Build();
         }
     }
 }
