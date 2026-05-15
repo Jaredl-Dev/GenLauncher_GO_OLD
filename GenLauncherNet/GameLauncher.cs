@@ -24,7 +24,7 @@ namespace GenLauncherNet
                 var modVersion = versions.Where(v => v.ModificationType == ModificationType.Mod).ToList();
                 if (modVersion.Count > 0)
                 {
-                    await Task.Run(() => PrepareGameFiles(modVersion, false, true));
+                    await Task.Run(() => PrepareGameFiles(modVersion, true));
                     var r = await ModFilesAreCorrect(modVersion[0]);
                     await Task.Run(() => RenameGameFilesToOriginalState());
                     if (!r)
@@ -32,7 +32,7 @@ namespace GenLauncherNet
                 }
             }
 
-            await Task.Run(() => PrepareGameFiles(versions, true, false));
+            await Task.Run(() => PrepareGameFiles(versions));
             return true;
         }
 
@@ -117,7 +117,7 @@ namespace GenLauncherNet
             FilesHandler.ApplyActionsToGameFiles(SymbolicLinkHandler.RemoveSymbLinkFile, RemoveGenLauncherReplaceSuffixes);
         }
 
-        private static void PrepareGameFiles(List<ModificationVersion> versions, bool setCameraHeight, bool createLinksOnEmptyBigs = false)
+        private static void PrepareGameFiles(List<ModificationVersion> versions, bool createLinksOnEmptyBigs = false)
         {
             FilesHandler.ApplyActionsToGameFiles(RenameNonGameBigFile, RenameCustomFiles, SymbolicLinkHandler.RemoveSymbLinkFile);
 
@@ -131,9 +131,6 @@ namespace GenLauncherNet
                 RemoveFileSuffix(Directory.GetCurrentDirectory() + "/" + EntryPoint.SteamFolderName + "/Data/Scripts/Scripts.ini.GLR", EntryPoint.GenLauncherReplaceSuffix);                
                 RemoveFileSuffix(Directory.GetCurrentDirectory() + "/" + EntryPoint.SteamFolderName + "/Data/Scripts/SkirmishScripts.scb.GLR", EntryPoint.GenLauncherReplaceSuffix);
             }
-
-            if (setCameraHeight && EntryPoint.SessionInfo.GameMode == Game.ZeroHour)
-                SetCameraHeight(versions);
 
             versions.ForEach(v => SymbolicLinkHandler.CreateMirrorsFromFolder(v.GetFolderName(), createLinksOnEmptyBigs));
         }
@@ -200,64 +197,6 @@ namespace GenLauncherNet
 
         #endregion
 
-        #region Camera Height
-
-        private static string SetCameraHeight(List<ModificationVersion> versions)
-        {
-            var cameraHeight = DataHandler.GetCameraHeight();
-
-            if (cameraHeight == 0)
-                return string.Empty;
-
-            var bigFiles = new List<string>();
-
-            foreach (var version in versions)
-            {
-                bigFiles.AddRange(GetBigFilesFromFolder(version.GetFolderName()));
-            }
-
-            var bigWithCameraHeight = GetFileWithCameraHeight(bigFiles.OrderBy(f => Path.GetFileName(f)));
-
-            if (String.IsNullOrEmpty(bigWithCameraHeight))
-                return bigWithCameraHeight;
-
-            if (!File.Exists(bigWithCameraHeight + EntryPoint.GenLauncherOriginalFileSuffix))
-                File.Copy(bigWithCameraHeight, bigWithCameraHeight + EntryPoint.GenLauncherOriginalFileSuffix);
-
-            BigHandler.SetCameraHeight(bigWithCameraHeight, cameraHeight);
-            return bigWithCameraHeight;
-        }
-
-        private static string GetFileWithCameraHeight(IOrderedEnumerable<string> files)
-        {
-            return files.Where(f => FileContainsCameraHeight(f)).FirstOrDefault();
-        }
-
-        private static bool FileContainsCameraHeight(string file)
-        {
-            return BigHandler.FileContainsGameDataIni(file);
-        }
-
-        private static List<string> GetBigFilesFromFolder(string folder)
-        {
-            var result = new List<string>();
-
-            foreach (var file in Directory.GetFiles(folder))
-            {
-                if (BigHandler.IsBigArchive(file))
-                    result.Add(file);
-            }
-
-            foreach (var dir in Directory.GetDirectories(folder))
-            {
-                result.AddRange(GetBigFilesFromFolder(dir));
-            }
-
-            return result;
-        }
-
-        #endregion
-
         #region Exe handlers
 
         private static bool StartGameExe(bool bIsGeneralsOnline)
@@ -266,7 +205,7 @@ namespace GenLauncherNet
 
             if (bIsGeneralsOnline)
             {
-				process = StartExe("generalsonlinezh.exe");
+				process = StartExe("generalsonlinezh.exe", false);
 			}
             else
             {
@@ -278,9 +217,6 @@ namespace GenLauncherNet
            
 
             var exeRunning = true;
-
-            if (DataHandler.UseVulkan)
-                process.PriorityClass = ProcessPriorityClass.High;
 
             process.Exited += (sender, e1) =>
             {
@@ -327,10 +263,17 @@ namespace GenLauncherNet
             }
         }
 
-        private static Process StartExe(string exeName)
+        private static Process StartExe(string exeName, bool includeGameParameters = true)
         {
             Process process;
-            
+
+            if (!includeGameParameters)
+            {
+                process = Process.Start(exeName);
+                process.EnableRaisingEvents = true;
+
+                return process;
+            }
 
             var parameters = "";
 

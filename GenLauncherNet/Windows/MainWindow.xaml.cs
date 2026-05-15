@@ -1091,8 +1091,13 @@ namespace GenLauncherNet.Windows
             AddonsList.Visibility = Visibility.Hidden;
         }
 
-        private async Task CheckAndUpdateGentool()
+        private async Task CheckAndUpdateGentool(bool bIsGeneralsOnline)
         {
+            if (bIsGeneralsOnline)
+            {
+                return;
+            }
+
             if (!DataHandler.GentoolAutoUpdate() && File.Exists("d3d8.dll"))
             {
                 File.Move("d3d8.dll", "d3d8.dll" + EntryPoint.GenLauncherReplaceSuffix);
@@ -1117,46 +1122,13 @@ namespace GenLauncherNet.Windows
             }
         }
 
-        private async Task CheckAndUpdateVulkan()
+        private async Task CheckModdedExe(bool bIsGeneralsOnline)
         {
-            if (!DataHandler.UseVulkan || !EntryPoint.SessionInfo.Connected)
+            if (bIsGeneralsOnline)
             {
                 return;
             }
 
-            if (Directory.Exists(EntryPoint.VulkanDllsFolderName))
-                Directory.CreateDirectory(EntryPoint.VulkanDllsFolderName);
-
-            if (VulkanDllsHandler.IsCurrentVersionOutDated())
-            {
-                await DownloadVulkan();
-            }
-
-            VulkanDllsHandler.CreateVulkanSymbLinks();
-        }
-
-        private async Task DownloadVulkan()
-        {
-            try
-            {
-                using (var client = new ContentDownloader(DataHandler.VulkanData.DownloadLink, null, null, null, true, EntryPoint.VulkanDllsFolderName))
-                {
-                    client.ProgressChanged += LauncherUpdateProgressChanged;
-                    SetProgressBarInInstallMode();
-                    await client.StartDownload();
-
-                    SetProgressBarInPassivelMode();
-                }
-            }
-            catch
-            {
-                UpdateProgressBar.Value = 0;
-                UpdateProgress.Text = LocalizedStrings.Instance["CantCheckGentool"];
-            }
-        }
-
-        private async Task CheckModdedExe()
-        {
             if (EntryPoint.SessionInfo.GameMode == Game.Generals)
                 DataHandler.SetModdedExeStatus(false);
 
@@ -1239,6 +1211,35 @@ namespace GenLauncherNet.Windows
         private static void RenameDownloadedModdedGeneralsExe(string tempFileName)
         {
             File.Move(tempFileName, "modded.exe");
+        }
+
+        private bool TryChooseGeneralsOnline(out bool bIsGeneralsOnline)
+        {
+            bIsGeneralsOnline = false;
+
+            if (!File.Exists("generalsonlinezh.exe"))
+            {
+                return true;
+            }
+
+            var infoWindow = new InfoWindow("Which game would you like to launch?", "Please choose a game client:")
+            { WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen };
+            infoWindow.Ok.Visibility = Visibility.Hidden;
+
+            infoWindow.Continue.Width = 150f;
+            infoWindow.Continue.Content = "Generals";
+            infoWindow.Cancel.Content = "GeneralsOnline";
+            infoWindow.Cancel.Width = 150f;
+
+            infoWindow.ShowDialog();
+
+            if (!infoWindow.UserChoseAnOption())
+            {
+                return false;
+            }
+
+            bIsGeneralsOnline = !infoWindow.GetResult();
+            return true;
         }
 
         private async Task UpdateAddonsAndPatches(ModificationReposVersion mod)
@@ -1700,10 +1701,18 @@ namespace GenLauncherNet.Windows
 
             if (ModificationsDontNeedUpdate() && ModificationsAreNotDeprecated())
             {
-                DisableUI();
-                await CheckModdedExe();
                 var activeVersions = GetSelectedVersionsOfAllSelectedModifications();
                 _isGameRunning = true;
+
+                bool bIsGeneralsOnline;
+                if (!TryChooseGeneralsOnline(out bIsGeneralsOnline))
+                {
+                    _isGameRunning = false;
+                    return;
+                }
+
+                DisableUI();
+                await CheckModdedExe(bIsGeneralsOnline);
 
                 var doCheck = DoCheck(activeVersions);
 
@@ -1715,43 +1724,7 @@ namespace GenLauncherNet.Windows
                     if (DataHandler.GetHideLauncher())
                         this.Hide();
 
-                    await CheckAndUpdateGentool();
-                    await CheckAndUpdateVulkan();
-
-					bool bIsGeneralsOnline = false;
-
-                    // Do we need to prompt for GO?
-                    if (File.Exists("generalsonlinezh.exe"))
-                    {
-						var infoWindow = new InfoWindow("Which game would you like to launch?", "Please choose a game client:")
-						{ WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen };
-						infoWindow.Ok.Visibility = Visibility.Hidden;
-
-						infoWindow.Continue.Width = 150f;
-						infoWindow.Continue.Content = "Generals";
-						infoWindow.Cancel.Content = "GeneralsOnline";
-						infoWindow.Cancel.Width = 150f;
-
-						infoWindow.ShowDialog();
-
-                        bool bSelectedGeneralsVanilla = infoWindow.GetResult();
-                        
-                        // dont launch if they just closed the dialog box without selecting anything
-                        if (!infoWindow.UserChoseAnOption())
-                        {
-							_isGameRunning = false;
-							return;
-                        }
-
-						if (!bSelectedGeneralsVanilla) // generals online
-						{
-							bIsGeneralsOnline = true;
-						}
-						else // generals vanilla
-						{
-							bIsGeneralsOnline = false;
-						}
-					}
+                    await CheckAndUpdateGentool(bIsGeneralsOnline);
 
 						DataHandler.FirstRun = false;
 						var result = await GameLauncher.RunGame(bIsGeneralsOnline);

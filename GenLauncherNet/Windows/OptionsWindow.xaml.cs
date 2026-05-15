@@ -49,17 +49,21 @@ namespace GenLauncherNet
 
         private void UpdateUIStatus()
         {
+            DataHandler.SetCameraHeight(0);
+            DataHandler.UseVulkan = false;
+
             if (EntryPoint.SessionInfo.GameMode == Game.Generals)
             {
                 DataHandler.SetModdedExeStatus(false);
                 modded.IsEnabled = false;
                 generals.IsEnabled = false;
-
-                customCamera.IsEnabled = false;
-                defaultCamera.IsEnabled = false;
-                CameraHeightSlider.IsEnabled = false;
-                DataHandler.SetCameraHeight(0);
             }
+
+            customCamera.IsEnabled = false;
+            defaultCamera.IsEnabled = false;
+            CameraHeightSlider.IsEnabled = false;
+            CameraHeightLabel.IsEnabled = false;
+            Vulkan.IsEnabled = false;
 
             if (File.Exists(EntryPoint.LauncherFolder + "eng"))
             {
@@ -113,17 +117,10 @@ namespace GenLauncherNet
                 AskToCheck.IsChecked = false;
             }
 
-            if (DataHandler.GetCameraHeight() == 0)
-            {
-                defaultCamera.IsChecked = true;
-                CameraHeightSlider.Visibility = Visibility.Hidden;
-                CameraHeightLabel.Visibility = Visibility.Hidden;
-            }
-            else
-            {
-                customCamera.IsChecked = true;
-                CameraHeightSlider.Value = DataHandler.GetCameraHeight();
-            }
+            defaultCamera.IsChecked = true;
+            customCamera.IsChecked = false;
+            CameraHeightSlider.Visibility = Visibility.Hidden;
+            CameraHeightLabel.Visibility = Visibility.Hidden;
 
             if (DataHandler.GentoolAutoUpdate())
             {
@@ -134,14 +131,7 @@ namespace GenLauncherNet
                 DisableGentool.IsChecked = true;
             }
 
-            if (DataHandler.UseVulkan)
-            {
-                Vulkan.IsChecked = true;
-            }
-            else
-            {
-                Vulkan.IsChecked = false;
-            }
+            Vulkan.IsChecked = false;
 
             GameParams.Text = DataHandler.GetGameParams();
 
@@ -305,7 +295,7 @@ namespace GenLauncherNet
             if (CameraHeightLabel != null)
             {
                 CameraHeightLabel.Content = CameraHeightSlider.Value;
-                DataHandler.SetCameraHeight((int)CameraHeightSlider.Value);
+                DataHandler.SetCameraHeight(0);
             }
         }
 
@@ -318,11 +308,11 @@ namespace GenLauncherNet
 
         private void RadioButton_Click_1(object sender, RoutedEventArgs e)
         {
-            CameraHeightSlider.Visibility = Visibility.Visible;
-            CameraHeightLabel.Visibility = Visibility.Visible;
-            CameraHeightSlider.Value = CameraHeightSlider.Minimum;
-            CameraHeightLabel.Content = CameraHeightSlider.Minimum;
-            DataHandler.SetCameraHeight((int)CameraHeightSlider.Minimum);
+            defaultCamera.IsChecked = true;
+            customCamera.IsChecked = false;
+            CameraHeightSlider.Visibility = Visibility.Hidden;
+            CameraHeightLabel.Visibility = Visibility.Hidden;
+            DataHandler.SetCameraHeight(0);
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
@@ -545,16 +535,8 @@ namespace GenLauncherNet
 
         private void Vulkan_Click(object sender, RoutedEventArgs e)
         {
-            var check = DataHandler.UseVulkan;
-
-            DataHandler.UseVulkan = !check;
-            Vulkan.IsChecked = !check;
-
-            if (DataHandler.UseVulkan)
-            {
-                HeatEffects.IsChecked = false;
-                gameOptions["HeatEffects"] = " no";
-            }
+            DataHandler.UseVulkan = false;
+            Vulkan.IsChecked = false;
         }
 
         private void English_Click(object sender, RoutedEventArgs e)

@@ -122,11 +122,6 @@ namespace GenLauncherNet
                 await DownloadAdvertisingData(gitHubMainDataReader);
             }
 
-            if (!String.IsNullOrEmpty(reposData.VulkanReposData))
-            {
-                await DownloadVulkanData(reposData.VulkanReposData);
-            }
-
             if (reposData.originalGamePatches.Count > 0)
             {
                 OGPatches = reposData.originalGamePatches;
@@ -177,12 +172,12 @@ namespace GenLauncherNet
 
         public static void SetCameraHeight(int height)
         {
-            Data.CameraHeight = height;
+            Data.CameraHeight = 0;
         }
 
         public static int GetCameraHeight()
         {
-            return Data.CameraHeight;
+            return 0;
         }
 
         public static void SetQuickStartStatus(bool status)
@@ -241,8 +236,8 @@ namespace GenLauncherNet
 
         public static bool UseVulkan
         {
-            get { return Data.UseVulkan; }
-            set { Data.UseVulkan = value; }
+            get { return false; }
+            set { Data.UseVulkan = false; }
         }
 
         internal static bool GetAskBeforeCheck()
