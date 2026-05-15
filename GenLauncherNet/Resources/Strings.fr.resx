@@ -325,7 +325,7 @@
     <value>Impossible de lancer {0} - Installation en cours!</value>
   </data>
   <data name="JoinDiscord" xml:space="preserve">
-    <value>Rejoindre GenLauncher Discord!</value>
+    <value>Rejoindre le Discord GeneralsOnline!</value>
   </data>
   <data name="LatestVersion" xml:space="preserve">
     <value>Dernière version: </value>

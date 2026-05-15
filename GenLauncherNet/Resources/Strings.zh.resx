@@ -325,7 +325,7 @@
     <value>无法启动 {0} - 正在安装!</value>
   </data>
   <data name="JoinDiscord" xml:space="preserve">
-    <value>加入启动器的Discord！</value>
+    <value>加入 GeneralsOnline Discord！</value>
   </data>
   <data name="LatestVersion" xml:space="preserve">
     <value>最新版本：</value>

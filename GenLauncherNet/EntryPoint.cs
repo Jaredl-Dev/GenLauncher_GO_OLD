@@ -124,7 +124,7 @@ namespace GenLauncherNet
             {
                 MessageBox.Show(String.Format(
                     LocalizedStrings.Instance["ErrorMsg"],
-                    e.Message, e.StackTrace, Version, @"https://discord.gg/fFGpudz5hV"));
+                    e.Message, e.StackTrace, Version, @"https://discord.playgenerals.online/"));
             }
         }   
 

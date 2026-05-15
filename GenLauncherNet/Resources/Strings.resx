@@ -325,7 +325,7 @@
     <value>Cannot launch {0} - installation in progress!</value>
   </data>
   <data name="JoinDiscord" xml:space="preserve">
-    <value>Join GenLauncher Discord!</value>
+    <value>Join GeneralsOnline Discord!</value>
   </data>
   <data name="LatestVersion" xml:space="preserve">
     <value>Latest Version: </value>

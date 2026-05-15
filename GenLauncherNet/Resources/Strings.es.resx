@@ -325,7 +325,7 @@
     <value>No se puede iniciar {0}: ¡instalación en curso!</value>
   </data>
   <data name="JoinDiscord" xml:space="preserve">
-    <value>¡Únirse a GenLauncher Discord!</value>
+    <value>¡Únirse a GeneralsOnline Discord!</value>
   </data>
   <data name="LatestVersion" xml:space="preserve">
     <value>Ultima versión: </value>

@@ -325,7 +325,7 @@
     <value>Konnte nicht starten {0} - Installation in Bearbeitung!</value>
   </data>
   <data name="JoinDiscord" xml:space="preserve">
-    <value>Tritt GenLauncher Discord bei!</value>
+    <value>Tritt GeneralsOnline Discord bei!</value>
   </data>
   <data name="LatestVersion" xml:space="preserve">
     <value>Neuste Version: </value>

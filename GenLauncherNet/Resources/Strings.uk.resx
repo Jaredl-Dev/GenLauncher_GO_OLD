@@ -325,7 +325,7 @@
     <value>Не можливо запустити {0} - завантаження в процесі!</value>
   </data>
   <data name="JoinDiscord" xml:space="preserve">
-    <value>Приєднатися до GenLauncher Discord!</value>
+    <value>Приєднатися до GeneralsOnline Discord!</value>
   </data>
   <data name="LatestVersion" xml:space="preserve">
     <value>Остання версія: </value>

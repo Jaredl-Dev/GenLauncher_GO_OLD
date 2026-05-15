@@ -354,7 +354,7 @@ namespace GenLauncherNet
 
         private void GenLauncherDiscord_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("https://discord.gg/fFGpudz5hV");
+            Process.Start("https://discord.playgenerals.online/");
         }
 
         private void Authors_Click(object sender, RoutedEventArgs e)

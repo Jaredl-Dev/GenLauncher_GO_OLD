@@ -325,7 +325,7 @@
     <value>Нельзя запустить {0} - установка в процессе!</value>
   </data>
   <data name="JoinDiscord" xml:space="preserve">
-    <value>Дискорд GenLauncher</value>
+    <value>Дискорд GeneralsOnline</value>
   </data>
   <data name="LatestVersion" xml:space="preserve">
     <value>Последняя версия: </value>

@@ -682,7 +682,7 @@ namespace GenLauncherNet.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Join GenLauncher Discord!.
+        ///   Looks up a localized string similar to Join GeneralsOnline Discord!.
         /// </summary>
         public static string JoinDiscord {
             get {

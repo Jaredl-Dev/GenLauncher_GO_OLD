@@ -322,7 +322,7 @@
     <value>nemoguće pokrenuti {0} - još se instalira!</value>
   </data>
   <data name="JoinDiscord" xml:space="preserve">
-    <value>Pridruži se Discordu Genlaunchera!</value>
+    <value>Pridruži se GeneralsOnline Discordu!</value>
   </data>
   <data name="LatestVersion" xml:space="preserve">
     <value>Najnovija verzija: </value>

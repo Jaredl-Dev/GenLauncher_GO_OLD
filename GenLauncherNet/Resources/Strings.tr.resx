@@ -325,7 +325,7 @@
     <value>{0} Başlatılamıyor- kurulum hala devam ediyor!</value>
   </data>
   <data name="JoinDiscord" xml:space="preserve">
-    <value>GenLauncher discord sunucusuna katılın!</value>
+    <value>GeneralsOnline Discord sunucusuna katılın!</value>
   </data>
   <data name="LatestVersion" xml:space="preserve">
     <value>En güncel sürüm: </value>

@@ -325,7 +325,7 @@
     <value>Não é possível iniciar {0} – instalação em andamento!</value>
   </data>
   <data name="JoinDiscord" xml:space="preserve">
-    <value>Junte-se ao GenLauncher!</value>
+    <value>Junte-se ao Discord do GeneralsOnline!</value>
   </data>
   <data name="LatestVersion" xml:space="preserve">
     <value>Última versão: </value>
