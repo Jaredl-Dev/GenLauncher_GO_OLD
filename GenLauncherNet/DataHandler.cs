@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using YamlDotNet;
+using YamlDotNet.Serialization;
 
 namespace GenLauncherNet
 {
@@ -15,7 +14,6 @@ namespace GenLauncherNet
         //TODO regions
 
         public static List<string> ReposModsNames { get; private set; }
-        public static VulkanData VulkanData { get; private set; }
 
         private static bool connected;
         private static LauncherData Data;
@@ -66,9 +64,6 @@ namespace GenLauncherNet
                     await ReadPatchesAndAddonsForMod(GetSelectedMod());
                 }
             }
-
-            if (GetMods().Count > 0)
-                FirstRun = false;
         }
 
         public static async Task ReadOriginalGameAddonsAndPatches()
@@ -170,16 +165,6 @@ namespace GenLauncherNet
             Data.Windowed = status;
         }
 
-        public static void SetCameraHeight(int height)
-        {
-            Data.CameraHeight = 0;
-        }
-
-        public static int GetCameraHeight()
-        {
-            return 0;
-        }
-
         public static void SetQuickStartStatus(bool status)
         {
             Data.QuickStart = status;
@@ -227,18 +212,6 @@ namespace GenLauncherNet
         #endregion
 
         #region DataGetters
-
-        public static bool FirstRun
-        {
-            get { return Data.FirstStart; }
-            set { Data.FirstStart = value; }
-        }
-
-        public static bool UseVulkan
-        {
-            get { return false; }
-            set { Data.UseVulkan = false; }
-        }
 
         internal static bool GetAskBeforeCheck()
         {
@@ -644,21 +617,6 @@ namespace GenLauncherNet
             return false;
         }        
 
-        private static async Task DownloadVulkanData(string vulkanLink)
-        {
-            try
-            {
-                using (var client = new GitHubYamlReader(vulkanLink))
-                {
-                    VulkanData = await client.ReadYaml<VulkanData>();
-                }
-            } 
-            catch
-            {
-
-            }
-        }
-
         private static async Task DownloadAdvertisingData(GitHubMainDataReader gitHubMainDataReader)
         {
             //TODO maybe make more than 1 advertasing in far future
@@ -740,7 +698,9 @@ namespace GenLauncherNet
             {
                 CreateLauncherFolder();
 
-                var deSerializer = new YamlDotNet.Serialization.Deserializer();
+                var deSerializer = new DeserializerBuilder()
+                    .IgnoreUnmatchedProperties()
+                    .Build();
 
                 using (FileStream fstream = new FileStream(EntryPoint.ConfigName, FileMode.OpenOrCreate))
                 {
@@ -749,6 +709,8 @@ namespace GenLauncherNet
 
                 if (Data == null)
                     Data = CreateNewData();
+
+                PurgeObsoleteConfigProperties();
             }
             catch
             {
@@ -756,6 +718,11 @@ namespace GenLauncherNet
                     File.Delete(EntryPoint.ConfigName);
                 Data = CreateNewData();
             }
+        }
+
+        private static void PurgeObsoleteConfigProperties()
+        {
+            SaveLauncherData();
         }
 
         private static LauncherData CreateNewData()
@@ -781,7 +748,7 @@ namespace GenLauncherNet
                 if (File.Exists(EntryPoint.ConfigName))
                     File.Delete(EntryPoint.ConfigName);
 
-                var serializer = new YamlDotNet.Serialization.Serializer();
+                var serializer = new Serializer();
 
                 using (TextWriter writer = File.CreateText(EntryPoint.ConfigName))
                 {

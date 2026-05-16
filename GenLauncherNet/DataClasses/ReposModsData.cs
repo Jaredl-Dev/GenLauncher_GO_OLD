@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace GenLauncherNet
 {
     public class ReposModsData
     {
         public string LauncherVersion { get; set; }
-        public string DownloadLink { get; set; }
-        public string VulkanReposData { get; set; }
 
         public List<ModAddonsAndPatches> modDatas = new List<ModAddonsAndPatches>();
 

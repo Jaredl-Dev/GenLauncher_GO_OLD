@@ -2,14 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Xml.Serialization;
 using YamlDotNet.Serialization;
 
 namespace GenLauncherNet
@@ -151,7 +147,9 @@ namespace GenLauncherNet
 
                 memStream.Seek(0, SeekOrigin.Begin);
 
-                var deSerializer = new Deserializer();
+                var deSerializer = new DeserializerBuilder()
+                    .IgnoreUnmatchedProperties()
+                    .Build();
 
                 var modification = deSerializer.Deserialize<ModificationReposVersion>(new StreamReader(memStream));
 

@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
-using System.Linq;
 using WPFLocalizeExtension.Engine;
 
 namespace GenLauncherNet
@@ -49,9 +47,6 @@ namespace GenLauncherNet
 
         private void UpdateUIStatus()
         {
-            DataHandler.SetCameraHeight(0);
-            DataHandler.UseVulkan = false;
-
             if (EntryPoint.SessionInfo.GameMode == Game.Generals)
             {
                 DataHandler.SetModdedExeStatus(false);
@@ -295,7 +290,6 @@ namespace GenLauncherNet
             if (CameraHeightLabel != null)
             {
                 CameraHeightLabel.Content = CameraHeightSlider.Value;
-                DataHandler.SetCameraHeight(0);
             }
         }
 
@@ -303,7 +297,6 @@ namespace GenLauncherNet
         {
             CameraHeightSlider.Visibility = Visibility.Hidden;
             CameraHeightLabel.Visibility = Visibility.Hidden;
-            DataHandler.SetCameraHeight(0);
         }
 
         private void RadioButton_Click_1(object sender, RoutedEventArgs e)
@@ -312,7 +305,6 @@ namespace GenLauncherNet
             customCamera.IsChecked = false;
             CameraHeightSlider.Visibility = Visibility.Hidden;
             CameraHeightLabel.Visibility = Visibility.Hidden;
-            DataHandler.SetCameraHeight(0);
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
@@ -516,26 +508,11 @@ namespace GenLauncherNet
 
         private void SetDefaultOptions(object sender, RoutedEventArgs e)
         {
-            gameOptionsHandler.ApplyDefaultGameOptions();
-
-            DataHandler.SetModdedExeStatus(true);
-            DataHandler.SetCameraHeight(0);
-            DataHandler.SetGentoolAutoUpdateStatus(true);
-            DataHandler.SetCheckModFiles(true);
-            DataHandler.SetAskBeforeCheck(true);
-            DataHandler.SetWindowedStatus(true);
-            DataHandler.SetModdedExeStatus(true);
-
-            GentoolHandler.SetRecommendedWindoweOptions();
-
-            DataHandler.UseVulkan = false;
-
             UpdateUIStatus();
         }
 
         private void Vulkan_Click(object sender, RoutedEventArgs e)
         {
-            DataHandler.UseVulkan = false;
             Vulkan.IsChecked = false;
         }
 

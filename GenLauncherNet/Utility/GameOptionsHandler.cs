@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace GenLauncherNet
 {
@@ -31,23 +28,6 @@ namespace GenLauncherNet
         public void SaveOptions()
         {
             File.WriteAllLines(optionsFilePath, gameOptions.Select(t => t.Key + " =" + (t.Value[0] == ' ' ? t.Value : " " + t.Value)));
-        }
-
-        public void ApplyDefaultGameOptions()
-        {
-            var screenWidth = SystemParameters.PrimaryScreenWidth.ToString();
-            var screenHeight = SystemParameters.PrimaryScreenHeight.ToString();
-
-            gameOptions["Resolution"] = " " + String.Format("{0} {1}", screenWidth, screenHeight);
-
-            gameOptions["HeatEffects"] = " no";
-            gameOptions["UseCloudMap"] = " no";
-            gameOptions["UseShadowVolumes"] = " no";
-            gameOptions["MaxParticleCount"] = " 2500";
-            gameOptions["UseShadowDecals"] = " yes";
-            gameOptions["DynamicLOD"] = " yes";
-
-            SaveOptions();
         }
 
         private void CheckGameOptionsFile()

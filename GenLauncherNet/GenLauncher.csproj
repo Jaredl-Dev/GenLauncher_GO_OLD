@@ -268,10 +268,8 @@
     </Compile>
     <Compile Include="Updaters\DownloadReadiness.cs" />
     <Compile Include="Updaters\DownloadResult.cs" />
-    <Compile Include="Updaters\FTPUpdater.cs" />
     <Compile Include="Updaters\HttpSingleFileUpdater.cs" />
     <Compile Include="Updaters\IUpdater.cs" />
-    <Compile Include="Updaters\IUpdaterFactory.cs" />
     <Compile Include="Updaters\S3Updater.cs" />
     <Compile Include="Updaters\UpdaterFactory.cs" />
     <Compile Include="Utility\BigHandler.cs" />
@@ -288,19 +286,14 @@
     <Compile Include="HttpHandlers\ContentDownloader.cs" />
     <Compile Include="Utility\DownloadLinkParser.cs" />
     <Compile Include="DataClasses\ModificationFileInfo.cs" />
-    <Compile Include="DataClasses\StringHashSet.cs" />
     <Compile Include="DataClasses\SessionInformation.cs" />
-    <Compile Include="Utility\GeneralUtilities.cs" />
     <Compile Include="Utility\TimeUtility.cs" />
-    <Compile Include="Utility\VulkanDllsHandler.cs" />
-    <Compile Include="DataClasses\VulkanData.cs" />
     <Compile Include="WPFElements\UpdateButton.cs" />
     <Compile Include="Windows\ManualAddMidificationWindow.xaml.cs">
       <DependentUpon>ManualAddMidificationWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ModificationsFileHandler.cs" />
     <Compile Include="S3StorageHandler.cs" />
-    <Compile Include="DataClasses\StringConcurrentDictionary.cs" />
     <Compile Include="Windows\UpdateAvailable.xaml.cs">
       <DependentUpon>UpdateAvailable.xaml</DependentUpon>
     </Compile>
@@ -323,7 +316,6 @@
     <Compile Include="HttpHandlers\GitHubMainDataReader.cs" />
     <Compile Include="DataClasses\ReposModsData.cs" />
     <Compile Include="WPFElements\InfoTextBlock.cs" />
-    <Compile Include="WPFElements\InfoButton.cs" />
     <Compile Include="WPFElements\NetworkInfoButton.cs" />
     <Compile Include="WPFElements\NameTextBox.cs" />
     <Compile Include="WPFElements\VersionTextBox.cs" />

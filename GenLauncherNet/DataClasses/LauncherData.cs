@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections.Concurrent;
 
 namespace GenLauncherNet
 {
@@ -13,7 +9,6 @@ namespace GenLauncherNet
         public bool ModdedExe { get; set; } = true;
         public bool Windowed { get; set; } = true;
         public bool QuickStart { get; set; } = true;
-        public int CameraHeight { get; set; }
         public int LaunchesCount { get; set; }
         public bool AutoUpdateGentool { get; set; } = true;
         public bool AutoDeleteOldVersions { get; set; } = false;
@@ -22,8 +17,6 @@ namespace GenLauncherNet
 
         public bool AskBeforeCheck { get; set; } = true;
         public bool HideLauncherAfterGameStart { get; set; } = false;
-        public bool FirstStart = true;
-        public bool UseVulkan = false;
 
         public List<GameModification> Modifications = new List<GameModification>();
         public List<GameModification> Addons = new List<GameModification>();

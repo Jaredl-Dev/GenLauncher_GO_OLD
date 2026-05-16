@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data.Common;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -15,7 +14,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using GenLauncherNet.Utility;
-using Minio.Exceptions;
 
 namespace GenLauncherNet.Windows
 {
@@ -954,27 +952,6 @@ namespace GenLauncherNet.Windows
 
         #region SupportMethods
 
-        private void ApplyDefaultOptions()
-        {
-            var gameOptionsHandler = new GameOptionsHandler();
-            gameOptionsHandler.ApplyDefaultGameOptions();
-
-            DataHandler.SetModdedExeStatus(true);
-            DataHandler.SetCameraHeight(0);
-            DataHandler.SetGentoolAutoUpdateStatus(true);
-            DataHandler.SetCheckModFiles(true);
-            DataHandler.SetAskBeforeCheck(true);
-            DataHandler.SetModdedExeStatus(true);
-
-            DataHandler.SetWindowedStatus(true);
-            GentoolHandler.SetRecommendedWindoweOptions();
-
-            UpdateWindowedStatus();
-
-            DataHandler.UseVulkan = false;
-            DataHandler.FirstRun = false;
-        }
-
         private void ModIncorrectInstallationNotify()
         {
             var infoWindow = new InfoWindow(LocalizedStrings.Instance["FilesCorrupted"], LocalizedStrings.Instance["Reinstall"])
@@ -1336,18 +1313,6 @@ namespace GenLauncherNet.Windows
 
         #region CheckingsBeforeGameRun
 
-        private bool NeedToApplyDefaultOptions()
-        {
-            var firstRun = DataHandler.FirstRun;
-
-            if (firstRun)
-            {
-                DataHandler.FirstRun = false;
-            }
-
-            return false;
-        }
-
         private bool ModificationsAreInstalled()
         {
             string modMessage;
@@ -1680,11 +1645,6 @@ namespace GenLauncherNet.Windows
                 return;
             }
 
-            if (NeedToApplyDefaultOptions())
-            {
-                ApplyDefaultOptions();
-            }
-
             if (ModificationsDontNeedUpdate() && ModificationsAreNotDeprecated())
             {
                 var activeVersions = GetSelectedVersionsOfAllSelectedModifications();
@@ -1711,8 +1671,6 @@ namespace GenLauncherNet.Windows
                         this.Hide();
 
                     await CheckAndUpdateGentool(bIsGeneralsOnline);
-
-						DataHandler.FirstRun = false;
 						var result = await GameLauncher.RunGame(bIsGeneralsOnline);
 
 						if (DataHandler.GetHideLauncher())
