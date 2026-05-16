@@ -948,7 +948,7 @@
         </RadioButton>
 
         <RadioButton x:Name="Vulkan" Foreground="{DynamicResource GenLauncherDefaultTextColor}" GroupName="none15" FontSize="14" Grid.Column="3" Grid.Row="10" FontWeight="Bold" HorizontalAlignment="Left"  VerticalAlignment="Top" Click="Vulkan_Click" Width="20" Margin="15,4,0,0"/>
-        <Image Grid.Column="3" Source="/Images/vulkan.png" HorizontalAlignment="Left" Height="35" Margin="338,4,0,0" Grid.Row="10" VerticalAlignment="Top" Width="127"/>
+        <Image Grid.Column="3" Source="/Assets/Images/vulkan-wordmark.png" HorizontalAlignment="Left" Height="35" Margin="338,4,0,0" Grid.Row="10" VerticalAlignment="Top" Width="127"/>
 
         <TextBlock Text="{lex:Loc VulkanWarning}" TextWrapping="WrapWithOverflow" Margin="10,44,0,0" Grid.Column="3" Grid.Row="10" Foreground="{DynamicResource GenLauncherDefaultTextColor}" FontSize="14"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="464" Height="62" Grid.RowSpan="2" />
 

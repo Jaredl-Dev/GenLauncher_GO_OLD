@@ -219,7 +219,7 @@ namespace GenLauncherNet
                 EntryPoint.DefaultColors = new ColorsInfo("#00e3ff", "DarkGray", "#7a7db0", "#baff0c", "#232977", "#090502",
                     "#B3000000", "White", "#090502", "#F21d2057", "#F21d2057", "#2534ff");
                 EntryPoint.DefaultColors.GenLauncherBackgroundImage = new ImageBrush(
-                    new BitmapImage(new Uri("pack://application:,,,/GenLauncher;component/Images/Background.png")));
+                    new BitmapImage(new Uri("pack://application:,,,/GenLauncher;component/Assets/Images/background-zero-hour.png")));
             }
             else
             {
@@ -227,7 +227,7 @@ namespace GenLauncherNet
                     "#B3000000", "White", "#090502", "#5a210d", "#8a2e0d", "#e24c17");
                 EntryPoint.DefaultColors.GenLauncherBackgroundImage = new ImageBrush(
                     new BitmapImage(
-                        new Uri("pack://application:,,,/GenLauncher;component/Images/BackgroundGenerals.png")));
+                        new Uri("pack://application:,,,/GenLauncher;component/Assets/Images/background-generals.png")));
             }
 
             EntryPoint.Colors = EntryPoint.DefaultColors;

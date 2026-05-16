@@ -43,15 +43,15 @@ namespace GenLauncherNet
             string fileName = "";
 
             if (EntryPoint.SessionInfo.GameMode == Game.ZeroHour)
-                fileName = "uamZH.jpg";
+                fileName = "user-mod-banner-zero-hour.jpg";
             else
-                fileName = "uamG.jpg";
+                fileName = "user-mod-banner-generals.jpg";
 
             var filePath = EntryPoint.LauncherFolder + "\\uam.jpg";
 
             if (!File.Exists(filePath))
             {
-                using (var resource = Assembly.GetExecutingAssembly().GetManifestResourceStream("GenLauncherNet.Images." + fileName))
+                using (var resource = Assembly.GetExecutingAssembly().GetManifestResourceStream("GenLauncherNet.Assets.Banners." + fileName))
                 {
                     using (var file = new FileStream(filePath, FileMode.Create, FileAccess.Write))
                     {
@@ -64,10 +64,11 @@ namespace GenLauncherNet
         public static void ExctractGentoolOptionsFile()
         {
             var fileName = "d3d8.cfg";
+            var resourceFileName = "default-gentool-options.cfg";
 
             if (!File.Exists(fileName))
             {
-                using (var resource = Assembly.GetExecutingAssembly().GetManifestResourceStream("GenLauncherNet." + fileName))
+                using (var resource = Assembly.GetExecutingAssembly().GetManifestResourceStream("GenLauncherNet.Assets.Config." + resourceFileName))
                 {
                     using (var file = new FileStream(fileName, FileMode.Create, FileAccess.Write))
                     {

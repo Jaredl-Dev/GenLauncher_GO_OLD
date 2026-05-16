@@ -8,7 +8,7 @@ namespace GenLauncherNet
         public static string ParseDownloadLink(string link)
         {
             //replaced dl=0 to dl=1 to get download link
-            //MyListBoxData.Add(new Modification("Rise of The Reds", "1.87 PB 2.0", "1.87 PB 2.0", "https://www.dropbox.com/s/nh8n8axi95gge41/ROTR.7z?dl=1", new BitmapImage(new Uri("Images/1.png", UriKind.Relative))));
+            //MyListBoxData.Add(new Modification("Rise of The Reds", "1.87 PB 2.0", "1.87 PB 2.0", "https://www.dropbox.com/s/nh8n8axi95gge41/ROTR.7z?dl=1", new BitmapImage(new Uri("Assets/Images/example.png", UriKind.Relative))));
             //generate from https://onedrive.live.com/?authkey=%21AIWtLuu54V5qKQ4&cid=896C9369E9176506&id=896C9369E9176506%21464&parId=896C9369E9176506%21463&o=OneUp
             //MyListBoxData.Add(new Modification("TEOD", "0.97.5", "0.97.5", "https://onedrive.live.com/download?cid=896C9369E9176506&resid=896C9369E9176506%21464&authkey=%21AIWtLuu54V5qKQ4"));
             //https://www.dropbox.com/s/ec9fjg909fkrvtt/TEOD.7z?dl=0            

@@ -63,7 +63,7 @@
     <ApplicationManifest>app1.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>fd.ico</ApplicationIcon>
+    <ApplicationIcon>Assets\Icons\app-icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug for Generals|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -405,8 +405,8 @@
     <EmbeddedResource Include="Resources\Strings.uk.resx" />
     <EmbeddedResource Include="Resources\Strings.zh.resx" />
     <None Include="app1.manifest" />
-    <EmbeddedResource Include="Options\options.ini" />
-    <EmbeddedResource Include="d3d8.cfg" />
+    <EmbeddedResource Include="Assets\Config\default-game-options.ini" />
+    <EmbeddedResource Include="Assets\Config\default-gentool-options.cfg" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -437,19 +437,16 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Background.png" />
+    <Resource Include="Assets\Images\background-zero-hour.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Background.png" />
+    <Resource Include="Assets\Images\genlauncher-logo-badge.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\gl02.png" />
+    <Resource Include="Assets\Images\genlauncher-logo-mark.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\gl01.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="fd.ico" />
+    <Resource Include="Assets\Icons\app-icon.ico" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Dlls\Minio.dll">
@@ -462,16 +459,16 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\BackgroundGenerals.png" />
+    <Resource Include="Assets\Images\background-generals.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Images\uamZH.jpg" />
+    <EmbeddedResource Include="Assets\Banners\user-mod-banner-zero-hour.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Images\uamG.jpg" />
+    <EmbeddedResource Include="Assets\Banners\user-mod-banner-generals.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\vulkan.png" />
+    <Resource Include="Assets\Images\vulkan-wordmark.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Dlls\SevenZipExtractor.dll" />

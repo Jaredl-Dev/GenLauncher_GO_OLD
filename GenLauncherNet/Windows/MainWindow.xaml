@@ -841,7 +841,7 @@
         <ProgressBar x:Name="UpdateProgressBar" HorizontalAlignment="Left" Height="24" Margin="20,96,0,0" VerticalAlignment="Top" Width="229" Grid.Column="6" Grid.Row="4"/>
         <TextBlock  x:Name="UpdateProgress" Foreground="Black" FontWeight="Bold" HorizontalAlignment="Left" FontSize="13" Margin="25,100,0,0" TextWrapping="Wrap" TextAlignment="Center"  VerticalAlignment="Top" Width="224" Height="20" Grid.Column="6" Grid.Row="4"/>
 
-        <Image x:Name="DownloadingImage" Source="/Images/gl02.png" Visibility="Hidden" Grid.Column="4" HorizontalAlignment="Center" Grid.Row="0" Width="180" Grid.RowSpan="6" Margin="1,0,92,0" >
+        <Image x:Name="DownloadingImage" Source="/Assets/Images/genlauncher-logo-badge.png" Visibility="Hidden" Grid.Column="4" HorizontalAlignment="Center" Grid.Row="0" Width="180" Grid.RowSpan="6" Margin="1,0,92,0" >
             <Image.RenderTransform>
                 <RotateTransform x:Name="rotate"
                          CenterX="90"
@@ -859,7 +859,7 @@
                 </EventTrigger>
             </Image.Triggers>
         </Image>
-        <Image x:Name="DownloadingImage2"  Source="/Images/gl01.png" Visibility="Hidden" HorizontalAlignment="Center" Width="139" Grid.Column="4" Grid.Row="0" Grid.RowSpan="6" Margin="20,0,110,0"/>
+        <Image x:Name="DownloadingImage2"  Source="/Assets/Images/genlauncher-logo-mark.png" Visibility="Hidden" HorizontalAlignment="Center" Width="139" Grid.Column="4" Grid.Row="0" Grid.RowSpan="6" Margin="20,0,110,0"/>
 
         <Button Style="{StaticResource DefaultButtonStyle}" Foreground="{DynamicResource GenLauncherDefaultTextColor}" Grid.Column="1" Grid.Row ="1" x:Name="ModsButton" Content="{lex:Loc Mods}" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top" Width="66" Click="ModsButton_Click" Height="25"/>
         <Button Style="{StaticResource DefaultButtonStyle}" Foreground="{DynamicResource GenLauncherDefaultTextColor}" Grid.Column="2" Grid.Row ="1" Grid.ColumnSpan="2" x:Name="PatchesButton" FontSize="14" Content="{lex:Loc Patches}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="265" Click="PatchesButton_Click" Height="25"/>

@@ -148,7 +148,7 @@ namespace GenLauncherNet.Windows
                 bitmap.StreamSource = stream;
                 bitmap.EndInit();
                 container.Colors.GenLauncherBackgroundImage = new ImageBrush(
-                    new BitmapImage(new Uri("pack://application:,,,/GenLauncher;component/Images/Background.png")));
+                    new BitmapImage(new Uri("pack://application:,,,/GenLauncher;component/Assets/Images/background-zero-hour.png")));
                 container.Colors.GenLauncherBackgroundImage.ImageSource = bitmap;
                 stream.Close();
             }

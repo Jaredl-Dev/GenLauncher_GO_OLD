@@ -55,7 +55,7 @@ namespace GenLauncherNet
 
         private void ExtractOptions(string folderPath)
         {
-            using (var resource = Assembly.GetExecutingAssembly().GetManifestResourceStream("GenLauncherNet.Options.options.ini"))
+            using (var resource = Assembly.GetExecutingAssembly().GetManifestResourceStream("GenLauncherNet.Assets.Config.default-game-options.ini"))
             {
                 using (var file = new FileStream(folderPath + "/Options.ini", FileMode.Create, FileAccess.Write))
                 {

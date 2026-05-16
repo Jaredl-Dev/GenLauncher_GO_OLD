@@ -1,4 +1,4 @@
-<img align="left" src="GenLauncherNet/fd.ico" width="100" alt="GenLauncher Icon">
+<img align="left" src="GenLauncherNet/Assets/Icons/app-icon.ico" width="100" alt="GenLauncher Icon">
 
 # GenLauncher
 [![Windows](https://svgshare.com/i/ZhY.svg)](https://svgshare.com/i/ZhY.svg)
